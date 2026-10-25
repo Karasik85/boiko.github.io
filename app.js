@@ -49,6 +49,17 @@ function professional() {
 }
 function result(key) {
   const g = guides[key]; bubble('Спробуй один крок: ' + g.step, false, g);
+  const invitation = document.createElement('div');
+  invitation.className = 'bubble';
+  invitation.textContent = 'Продовжуй свій шлях разом із Людмилою — долучайся до Telegram-каналу.';
+  const telegramLink = document.createElement('a');
+  telegramLink.href = 'https://t.me/liudmula_boiko';
+  telegramLink.target = '_blank';
+  telegramLink.rel = 'noopener noreferrer';
+  telegramLink.textContent = 'Долучитися до Telegram-каналу ↗';
+  invitation.append(document.createElement('br'), telegramLink);
+  log.append(invitation);
+  log.scrollTop = log.scrollHeight;
   choices([{label: 'Обрати інший запит', action: start}, {label: 'Завершити', action: () => { options.replaceChildren(); bubble('Ти можеш повернутися до гайда в будь-який момент.'); }}]);
 }
 document.getElementById('reset').addEventListener('click', start);
