@@ -53,7 +53,7 @@ function result(key) {
   invitation.className = 'bubble';
   invitation.textContent = 'Продовжуй свій шлях разом із Людмилою — долучайся до Telegram-каналу.';
   const telegramLink = document.createElement('a');
-  telegramLink.href = 'https://t.me/liudmula_boiko';
+  telegramLink.href = 'https://t.me/+J_Yv-BDIC-k0OTIy';
   telegramLink.target = '_blank';
   telegramLink.rel = 'noopener noreferrer';
   telegramLink.textContent = 'Долучитися до Telegram-каналу ↗';
