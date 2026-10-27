@@ -10,6 +10,46 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="extra.css">
   <script src="app.js" defer></script>
+<script>
+
+// Set to your verified GoatCounter endpoint, e.g. https://YOUR-CODE.goatcounter.com/count.
+// Empty means disabled: no analytics requests are sent.
+(() => {
+  const endpoint = "";
+  const site = location.pathname.startsWith("/boikoquiz") ? "quiz" : "site";
+  const queue = [];
+  window.boikoTrack = function(name) {
+    if (!endpoint || !/^[a-z0-9_-]+$/.test(name)) return;
+    const event = {path: site + "-" + name, title: site + ": " + name, event: true};
+    if (window.goatcounter && typeof window.goatcounter.count === "function") {
+      try { window.goatcounter.count(event); } catch (_) {}
+    } else if (queue.length < 50) queue.push(event);
+  };
+  if (!/^https:\/\/[a-z0-9-]+\.goatcounter\.com\/count$/.test(endpoint)) return;
+  let referrer = "";
+  try { referrer = document.referrer ? new URL(document.referrer).origin : ""; } catch (_) {}
+  window.goatcounter = {path: location.pathname, referrer: referrer};
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = "https://gc.zgo.at/count.js";
+  script.dataset.goatcounter = endpoint;
+  script.onload = () => {
+    if (typeof window.goatcounter.count === "function") {
+      queue.splice(0).forEach(event => { try { window.goatcounter.count(event); } catch (_) {} });
+    }
+  };
+  document.head.appendChild(script);
+  document.addEventListener("click", e => {
+    const link = e.target.closest("a[href]");
+    if (!link) return;
+    let url;
+    try { url = new URL(link.href, location.href); } catch (_) { return; }
+    if (url.hostname === "t.me") window.boikoTrack("telegram_click");
+    else if (["instagram.com", "www.instagram.com", "ig.me"].includes(url.hostname)) window.boikoTrack("instagram_click");
+    else if (url.origin === location.origin && /\.pdf$/i.test(url.pathname)) window.boikoTrack("guide_download_click");
+  });
+})();
+</script>
 </head>
 <body>
   <a class="skip" href="#main">До основного змісту</a>
